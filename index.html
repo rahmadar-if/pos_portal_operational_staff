@@ -113,9 +113,9 @@
         </div>
         
         <!-- Parent Company Ariv Solusindo Badge -->
-        <div class="h-11 w-auto hidden sm:flex items-center justify-center p-1 bg-white border border-steel-300 shadow-sm">
+        <!-- <div class="h-11 w-auto hidden sm:flex items-center justify-center p-1 bg-white border border-steel-300 shadow-sm">
           <img src="assets/logo.png" alt="Logo PT Ariv Solusi Indonesia" class="h-8 w-auto object-contain">
-        </div>
+        </div> -->
 
         <div class="border-l-2 border-steel-300 pl-3">
           <div class="flex items-center gap-2">
@@ -124,8 +124,10 @@
             <span class="text-steel-300 font-bold hidden md:inline">/</span>
             <span class="text-xs font-bold text-steel-600 hidden md:inline tracking-tight">ARIV SOLUSINDO</span>
           </div>
-          <p class="text-[10px] sm:text-[11px] font-mono font-medium text-steel-600">
-            PORTAL OPERASIONAL STAF &bull; <span class="text-emerald-700 font-bold">PT ARIV SOLUSI INDONESIA</span>
+          <p class="text-[10px] sm:text-[11px] font-mono font-medium text-steel-600 leading-tight sm:leading-normal">
+            PORTAL OPERASIONAL STAF <span class="hidden sm:inline">&bull;</span>
+            <br class="block sm:hidden">
+            <span class="text-emerald-700 font-bold">PT ARIV SOLUSI INDONESIA</span>
           </p>
         </div>
       </a>
@@ -136,7 +138,8 @@
           <span class="w-1.5 h-1.5 bg-emerald-400"></span>
           <span>01. MOCKUP HP</span>
         </a>
-        <a href="#katalog-modul" class="px-3.5 py-2 bg-steel-100 border border-steel-300 text-steel-900 hover:bg-steel-200">
+        <!-- <a href="#katalog-modul" class="px-3.5 py-2 bg-steel-100 border border-steel-300 text-steel-900 hover:bg-steel-200"> -->
+        <a href="#katalog-modul" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-steel-700">
           02. KATALOG MODUL (8)
         </a>
         <a href="#prinsip" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-steel-700">
@@ -181,7 +184,7 @@
           <span>01. MOCKUP HP PETUGAS</span>
           <span>&rarr;</span>
         </a>
-        <a @click="mobileMenuOpen = false" href="#katalog-modul" class="block p-3 bg-steel-100 text-steel-900 border border-steel-300 hover:bg-steel-200 flex items-center justify-between">
+        <a @click="mobileMenuOpen = false" href="#katalog-modul" class="block p-3 hover:bg-steel-100 text-steel-800 border border-transparent hover:border-steel-300 flex items-center justify-between">
           <span>02. KATALOG MODUL (8)</span>
           <span>&rarr;</span>
         </a>
