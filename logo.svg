@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64">
+  <!-- EMBLEM ICON (Kotak Industrial Tegas) -->
+  <g transform="translate(0, 0)">
+    <rect width="64" height="64" fill="#090D16" rx="0"/>
+    <rect x="2" y="2" width="60" height="60" fill="none" stroke="#334155" stroke-width="2"/>
+    
+    <!-- Monogram Sharp P -->
+    <path d="M16 14 H38 C44.627 14 50 19.373 50 26 C50 32.627 44.627 38 38 38 H27 V50 H16 Z" fill="#FFFFFF"/>
+    <path d="M27 22 H37 C39.209 22 41 23.791 41 26 C41 28.209 39.209 30 37 30 H27 Z" fill="#090D16"/>
+    
+    <!-- Radar Active Indicator (Emerald Green) -->
+    <rect x="42" y="10" width="12" height="12" fill="#10B981" stroke="#090D16" stroke-width="2"/>
+  </g>
+
+  <!-- LOGO TYPOGRAPHY -->
+  <g transform="translate(78, 12)">
+    <!-- POS Title -->
+    <text x="0" y="26" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" fill="#090D16" letter-spacing="-0.5">POS</text>
+    
+    <!-- OPS Badge (Kotak Hitam Emerald) -->
+    <g transform="translate(68, 4)">
+      <rect x="0" y="0" width="46" height="24" fill="#090D16" rx="0"/>
+      <rect x="1" y="1" width="44" height="22" fill="none" stroke="#047857" stroke-width="1"/>
+      <text x="23" y="16" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#10B981" text-anchor="middle" letter-spacing="1.5">OPS</text>
+    </g>
+    
+    <!-- Subtitle Formal -->
+    <text x="0" y="44" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.8">PORTAL OPERASIONAL STAF</text>
+  </g>
+</svg>

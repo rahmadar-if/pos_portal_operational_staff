@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS (Portal Operasional Staf) — Sistem Operasional Terpadu by PT Ariv Solusi Indonesia (Ariv Solusindo)</title>
+  <meta name="description" content="Sistem Informasi & Manajemen Operasional Lapangan Terpadu: Presensi Berbasis Titik Koordinat GPS, Penugasan SOP Harian, dan Layanan Tiket Keluhan untuk PT Outsourcing by PT Ariv Solusi Indonesia (arivsolusindo.com).">
+  
+  <!-- Favicon Resmi POS OPS -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/png" href="assets/logo.png">
+  <link rel="canonical" href="https://pos.arivsolusindo.com">
+  
+  <!-- Font: Inter & JetBrains Mono untuk kesan presisi, tegas, dan industrial -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            steel: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#090d16',
+            },
+            corp: {
+              navy: '#0a192f',
+              blue: '#1d4ed8',
+              emerald: '#047857',
+              amber: '#b45309',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    [x-cloak] { display: none !important; }
+    /* Border tegas industrial */
+    .border-sharp {
+      border: 1px solid #cbd5e1;
+    }
+    .border-sharp-dark {
+      border: 1px solid #334155;
+    }
+    .grid-pattern {
+      background-size: 24px 24px;
+      background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-steel-100 text-steel-900 font-sans antialiased selection:bg-steel-900 selection:text-white" x-data="{ activeModuleTab: 'all', mobileMenuOpen: false, leadName: '', leadStaffCount: '10 - 25 Personel' }">
+
+  <!-- ================= TOP SYSTEM BANNER (TEGAS & FORMAL) ================= -->
+  <div class="bg-steel-950 text-steel-300 text-xs py-2 px-4 sm:px-8 border-b border-steel-800 w-full">
+    <div class="w-full flex flex-wrap items-center justify-between gap-2 font-mono">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold text-[10px]">
+          <span class="w-1.5 h-1.5 bg-emerald-400"></span>
+          SERVER STATUS: READY
+        </span>
+        <span class="text-steel-400 hidden sm:inline">PT ARIV SOLUSI INDONESIA &bull; PLATFORM OPERASIONAL STAF OUTSOURCING</span>
+        <span class="text-steel-400 sm:hidden">PT ARIV SOLUSI INDONESIA</span>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-4 text-[11px]">
+        <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="text-blue-400 hover:text-blue-300 transition flex items-center gap-1">
+          <span>PORTAL: <strong class="text-white underline">arivsolusindo.com</strong></span>
+        </a>
+        <span class="text-steel-600 hidden md:inline">|</span>
+        <a href="https://wa.me/6285157875773?text=Halo%20Tim%20Ariv%20Solusindo,%20mohon%20informasi%20implementasi%20sistem%20POS%20(Portal%20Operasional%20Staf)%20untuk%20PT%20Outsourcing%20kami." target="_blank" rel="noreferrer" class="text-emerald-400 hover:underline font-bold flex items-center gap-1">
+          <span>WA: 0851-5787-5773</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER UTAMA (FULL WIDTH MEPEK UJUNG KE UJUNG) ================= -->
+  <header class="bg-white border-b-2 border-steel-300 sticky top-0 z-50 w-full shadow-sm">
+    <div class="w-full px-4 sm:px-8 lg:px-10 h-20 flex items-center justify-between">
+      
+      <!-- Logo Korporat Resmi: POS OPS Mark + PT Ariv Solusi Indonesia -->
+      <a href="#" class="flex items-center gap-3 group">
+        <!-- POS OPS Sharp Industrial Emblem Mark -->
+        <div class="w-11 h-11 bg-steel-950 flex items-center justify-center border-2 border-steel-900 shadow-sm relative shrink-0">
+          <svg class="w-7 h-7" viewBox="0 0 64 64" fill="none">
+            <path d="M16 14 H38 C44.627 14 50 19.373 50 26 C50 32.627 44.627 38 38 38 H27 V50 H16 Z" fill="#FFFFFF"/>
+            <path d="M27 22 H37 C39.209 22 41 23.791 41 26 C41 28.209 39.209 30 37 30 H27 Z" fill="#090D16"/>
+            <rect x="42" y="10" width="12" height="12" fill="#10B981" stroke="#090D16" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <!-- Parent Company Ariv Solusindo Badge -->
+        <div class="h-11 w-auto hidden sm:flex items-center justify-center p-1 bg-white border border-steel-300 shadow-sm">
+          <img src="assets/logo.png" alt="Logo PT Ariv Solusi Indonesia" class="h-8 w-auto object-contain">
+        </div>
+
+        <div class="border-l-2 border-steel-300 pl-3">
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg font-black tracking-tight text-steel-950 uppercase font-mono">POS</span>
+            <span class="text-[10px] px-1.5 py-0.5 bg-steel-900 text-emerald-400 font-mono font-bold tracking-wider border border-steel-800">OPS</span>
+            <span class="text-steel-300 font-bold hidden md:inline">/</span>
+            <span class="text-xs font-bold text-steel-600 hidden md:inline tracking-tight">ARIV SOLUSINDO</span>
+          </div>
+          <p class="text-[10px] sm:text-[11px] font-mono font-medium text-steel-600">
+            PORTAL OPERASIONAL STAF &bull; <span class="text-emerald-700 font-bold">PT ARIV SOLUSI INDONESIA</span>
+          </p>
+        </div>
+      </a>
+
+      <!-- Menu Navigasi Tegas Sesuai Urutan Halaman -->
+      <nav class="hidden lg:flex items-center gap-1 font-mono text-xs font-bold">
+        <a href="#mockup-mobile" class="px-3 py-2 bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1.5 hover:bg-emerald-900 transition">
+          <span class="w-1.5 h-1.5 bg-emerald-400"></span>
+          <span>01. MOCKUP HP</span>
+        </a>
+        <a href="#katalog-modul" class="px-3.5 py-2 bg-steel-100 border border-steel-300 text-steel-900 hover:bg-steel-200">
+          02. KATALOG MODUL (8)
+        </a>
+        <a href="#prinsip" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-steel-700">
+          03. AUDIT REALITA
+        </a>
+        <a href="#perbandingan" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-steel-700">
+          04. ANALISA EFISIENSI
+        </a>
+        <a href="#faq" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-steel-700">
+          05. FAQ TEKNIS
+        </a>
+        <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="px-3.5 py-2 hover:bg-steel-100 border border-transparent hover:border-steel-300 text-[#1E5B9E] flex items-center gap-1">
+          <span>WEB RESMI &nearr;</span>
+        </a>
+      </nav>
+
+      <!-- Desktop WA Button & Mobile Burger Toggle -->
+      <div class="flex items-center gap-2">
+        <!-- Tombol Aksi Kontak WhatsApp (HANYA MUNCUL DI DESKTOP) -->
+        <a href="https://wa.me/6285157875773?text=Halo%20Tim%20Ariv%20Solusindo,%20mohon%20informasi%20implementasi%20sistem%20POS%20(Portal%20Operasional%20Staf)%20untuk%20PT%20Outsourcing%20kami." target="_blank" rel="noreferrer" class="hidden lg:inline-flex px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold tracking-wide uppercase border border-emerald-900 shadow-sm items-center gap-2 transition">
+          <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>KONSULTASI WA</span>
+          <span class="font-mono">&rarr;</span>
+        </a>
+
+        <!-- Tombol Burger Mobile (HANYA MUNCUL DI MOBILE) -->
+        <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle Menu" class="lg:hidden p-2.5 bg-steel-900 text-white border-2 border-steel-900 hover:bg-steel-800 transition focus:outline-none flex items-center justify-center">
+          <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu (Dibuka saat Burger ditekan) -->
+    <div x-show="mobileMenuOpen" x-cloak x-transition class="lg:hidden bg-white border-t-2 border-steel-300 p-4 font-mono text-xs shadow-2xl">
+      <div class="space-y-1.5 font-bold">
+        <a @click="mobileMenuOpen = false" href="#mockup-mobile" class="block p-3 bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center justify-between">
+          <span>01. MOCKUP HP PETUGAS</span>
+          <span>&rarr;</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#katalog-modul" class="block p-3 bg-steel-100 text-steel-900 border border-steel-300 hover:bg-steel-200 flex items-center justify-between">
+          <span>02. KATALOG MODUL (8)</span>
+          <span>&rarr;</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#prinsip" class="block p-3 hover:bg-steel-100 text-steel-800 border border-transparent hover:border-steel-300 flex items-center justify-between">
+          <span>03. AUDIT REALITA LAPANGAN</span>
+          <span>&rarr;</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#perbandingan" class="block p-3 hover:bg-steel-100 text-steel-800 border border-transparent hover:border-steel-300 flex items-center justify-between">
+          <span>04. ANALISA EFISIENSI</span>
+          <span>&rarr;</span>
+        </a>
+        <a @click="mobileMenuOpen = false" href="#faq" class="block p-3 hover:bg-steel-100 text-steel-800 border border-transparent hover:border-steel-300 flex items-center justify-between">
+          <span>05. FAQ TEKNIS</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="block p-3 text-[#1E5B9E] border border-steel-200 hover:bg-blue-50 flex items-center justify-between">
+          <span>PORTAL: arivsolusindo.com</span>
+          <span>&nearr;</span>
+        </a>
+      </div>
+      
+      <div class="pt-3 mt-3 border-t border-steel-200">
+        <a href="https://wa.me/6285157875773?text=Halo%20Tim%20Ariv%20Solusindo,%20mohon%20informasi%20implementasi%20sistem%20POS%20(Portal%20Operasional%20Staf)%20untuk%20PT%20Outsourcing%20kami." target="_blank" rel="noreferrer" class="block p-3.5 bg-emerald-700 hover:bg-emerald-800 text-white text-center font-bold tracking-wider uppercase border border-emerald-900 shadow-sm">
+          [ HUBUNGI WHATSAPP RESMI ]
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION (INDUSTRIAL & OTORITATIF) ================= -->
+  <section class="bg-white border-b-2 border-steel-300 py-16 lg:py-24 relative grid-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-4xl">
+        <!-- System Specification Badge -->
+        <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 bg-steel-900 text-white font-mono text-xs font-bold uppercase tracking-wider mb-6">
+          <span>DOKUMEN SPESIFIKASI OPERASIONAL</span>
+          <span class="text-steel-400">|</span>
+          <span class="text-emerald-400">STANDAR PROTOKOL 2026</span>
+          <span class="text-steel-400 hidden sm:inline">|</span>
+          <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="text-cyan-300 hover:text-cyan-200 transition hidden sm:inline">
+            PT ARIV SOLUSI INDONESIA &bull; arivsolusindo.com &nearr;
+          </a>
+        </div>
+
+        <!-- Headline Utama yang Keras & Meyakinkan -->
+        <h1 class="text-3xl sm:text-5xl font-black text-steel-950 tracking-tight leading-tight uppercase font-sans">
+          SISTEM MONITORING PRESENSI & KINERJA PETUGAS OUTSOURCING
+        </h1>
+
+        <!-- Subheadline Lugas -->
+        <p class="mt-6 text-base sm:text-lg text-steel-700 leading-relaxed font-medium max-w-3xl border-l-4 border-steel-900 pl-4 bg-steel-50 py-2">
+          Solusi kontrol operasional terpusat untuk perusahaan penyedia jasa <strong>Keamanan (Security)</strong> dan <strong>Kebersihan (Office Boy)</strong>. Memberikan bukti verifikasi kehadiran berbasis koordinat GPS, pembuktian pekerjaan rutin, dan transparansi laporan langsung ke pihak manajemen gedung klien.
+        </p>
+
+        <!-- Kotak Spesifikasi Cepat (Grid Kotak-Kotak) -->
+        <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+          <div class="bg-steel-50 border-2 border-steel-300 p-3">
+            <span class="text-steel-500 block text-[10px] uppercase font-bold">VERIFIKASI ABSENSI</span>
+            <span class="text-steel-900 font-bold text-sm">KAMERA & GPS RADIUS</span>
+          </div>
+          <div class="bg-steel-50 border-2 border-steel-300 p-3">
+            <span class="text-steel-500 block text-[10px] uppercase font-bold">AKSES KOMUNIKASI</span>
+            <span class="text-steel-900 font-bold text-sm">DIRECT WHATSAPP</span>
+          </div>
+          <div class="bg-steel-50 border-2 border-steel-300 p-3">
+            <span class="text-steel-500 block text-[10px] uppercase font-bold">ARSITEKTUR SERVER</span>
+            <span class="text-steel-900 font-bold text-sm">MULTI-TENANT SEKAT</span>
+          </div>
+          <div class="bg-steel-50 border-2 border-steel-300 p-3">
+            <span class="text-steel-500 block text-[10px] uppercase font-bold">PELAPORAN AKHIR</span>
+            <span class="text-steel-900 font-bold text-sm">OTOMATIS PDF / EXCEL</span>
+          </div>
+        </div>
+
+        <!-- Tombol Aksi Utama -->
+        <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 font-mono text-xs font-bold">
+          <a href="#mockup-mobile" class="px-8 py-4 bg-steel-900 hover:bg-steel-800 text-white text-center uppercase tracking-wider border-2 border-steel-900 shadow-sm flex items-center justify-center gap-2">
+            <span>[ PREVIEW 3 MOCKUP HP ]</span>
+            <span class="text-emerald-400 font-extrabold">&darr;</span>
+          </a>
+          <a href="#katalog-modul" class="px-8 py-4 bg-white hover:bg-steel-100 text-steel-900 text-center uppercase tracking-wider border-2 border-steel-900 shadow-sm">
+            [ LIHAT 8 MODUL LENGKAP ]
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PREVIEW MOCKUP APLIKASI MOBILE (3 KARTU TERPISAH, LATAR TERANG & KONTRAS TINGGI) ================= -->
+  <section id="mockup-mobile" class="py-20 bg-steel-100 border-b-2 border-steel-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="font-mono text-xs font-bold text-steel-700 bg-white border border-steel-300 px-3 py-1 uppercase tracking-wider inline-block mb-3 shadow-sm">
+          📱 DOKUMENTASI VISUAL &bull; ANTARMUKA SMARTPHONE
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-steel-950 uppercase tracking-tight">
+          MOCKUP 3 LAYAR UTAMA PETUGAS LAPANGAN
+        </h2>
+        <p class="mt-3 text-xs sm:text-sm text-steel-700 font-medium">
+          Didesain sederhana, kontras tajam, dan ramah bagi petugas operasional senior. Tanpa instalasi APK, cukup buka dari browser ponsel.
+        </p>
+      </div>
+
+      <!-- 3 KARTU MOCKUP INDIVIDUAL (GRID 3 KOLOM) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- KARTU 1: PETA GEOFENCE -->
+        <div class="bg-white border-2 border-steel-400 hover:border-steel-900 transition-all p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <!-- Header Kartu -->
+            <div class="flex items-center justify-between pb-3 border-b border-steel-200 font-mono text-[11px]">
+              <span class="font-extrabold text-emerald-800 bg-emerald-100 px-2 py-0.5 border border-emerald-300">LAYAR 01</span>
+              <span class="text-steel-600 font-bold uppercase">GEOFENCE RADAR</span>
+            </div>
+            
+            <h3 class="text-base font-black text-steel-950 uppercase mt-3 mb-1">PETA KOORDINAT & RADIUS 50M</h3>
+            <p class="text-xs text-steel-600 leading-relaxed font-sans mb-4">
+              Penguncian radius GPS gedung kantor klien untuk validasi fisik kehadiran staf di lokasi.
+            </p>
+
+            <!-- Wadah Gambar HP Terpisah (PNG Transparan) -->
+            <div class="py-6 px-4 bg-steel-50 border-2 border-steel-200 flex items-center justify-center my-4 shadow-inner">
+              <img src="assets/mockup-phone-1.png" alt="Mockup Peta Geofence Radius 50m" class="h-80 w-auto object-contain drop-shadow-xl hover:scale-105 transition-transform">
+            </div>
+          </div>
+
+          <!-- Keterangan Teknis Bawah -->
+          <div class="pt-4 border-t border-steel-200 space-y-2 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-steel-600 font-bold">STATUS GPS:</span>
+              <span class="text-emerald-700 font-extrabold">[DALAM RADIUS]</span>
+            </div>
+            <p class="text-[11px] text-steel-700 font-sans leading-relaxed">
+              Tombol absensi hanya aktif jika petugas terdeteksi berada di dalam lingkaran hijau 50 meter gedung klien.
+            </p>
+            <div class="bg-steel-100 p-2 border border-steel-300 text-[10px] text-steel-800 font-bold">
+              [✓] PROTEKSI ANTI-FAKE GPS AKTIF
+            </div>
+          </div>
+        </div>
+
+        <!-- KARTU 2: KAMERA SELFIE & SITE ACCESS -->
+        <div class="bg-white border-2 border-steel-400 hover:border-steel-900 transition-all p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <!-- Header Kartu -->
+            <div class="flex items-center justify-between pb-3 border-b border-steel-200 font-mono text-[11px]">
+              <span class="font-extrabold text-blue-800 bg-blue-100 px-2 py-0.5 border border-blue-300">LAYAR 02</span>
+              <span class="text-steel-600 font-bold uppercase">FACE VERIFICATION</span>
+            </div>
+            
+            <h3 class="text-base font-black text-steel-950 uppercase mt-3 mb-1">KAMERA SELFIE & SITE LOGIN</h3>
+            <p class="text-xs text-steel-600 leading-relaxed font-sans mb-4">
+              Petugas memilih site gedung penugasan hari itu dan mengambil foto selfie wajah langsung.
+            </p>
+
+            <!-- Wadah Gambar HP Terpisah (PNG Transparan) -->
+            <div class="py-6 px-4 bg-steel-50 border-2 border-steel-200 flex items-center justify-center my-4 shadow-inner">
+              <img src="assets/mockup-phone-2.png" alt="Mockup Kamera Selfie dan Login" class="h-80 w-auto object-contain drop-shadow-xl hover:scale-105 transition-transform">
+            </div>
+          </div>
+
+          <!-- Keterangan Teknis Bawah -->
+          <div class="pt-4 border-t border-steel-200 space-y-2 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-steel-600 font-bold">MODE KAMERA:</span>
+              <span class="text-blue-700 font-extrabold">[LIVE CAPTURE ONLY]</span>
+            </div>
+            <p class="text-[11px] text-steel-700 font-sans leading-relaxed">
+              Sistem menonaktifkan fitur upload dari galeri untuk mencegah manipulasi foto presensi atau titip absen.
+            </p>
+            <div class="bg-steel-100 p-2 border border-steel-300 text-[10px] text-steel-800 font-bold">
+              [✓] VERIFIKASI IDENTITAS DINAS (NIK)
+            </div>
+          </div>
+        </div>
+
+        <!-- KARTU 3: TIKET INSIDEN & SLA -->
+        <div class="bg-white border-2 border-steel-400 hover:border-steel-900 transition-all p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <!-- Header Kartu -->
+            <div class="flex items-center justify-between pb-3 border-b border-steel-200 font-mono text-[11px]">
+              <span class="font-extrabold text-amber-900 bg-amber-100 px-2 py-0.5 border border-amber-300">LAYAR 03</span>
+              <span class="text-steel-600 font-bold uppercase">INCIDENT DISPATCH</span>
+            </div>
+            
+            <h3 class="text-base font-black text-steel-950 uppercase mt-3 mb-1">TIKET KELUHAN & TOMBOL SELESAI</h3>
+            <p class="text-xs text-steel-600 leading-relaxed font-sans mb-4">
+              Komplain fasilitas dari klien masuk seketika dengan target SLA dan tombol pelaporan tugas.
+            </p>
+
+            <!-- Wadah Gambar HP Terpisah (PNG Transparan) -->
+            <div class="py-6 px-4 bg-steel-50 border-2 border-steel-200 flex items-center justify-center my-4 shadow-inner">
+              <img src="assets/mockup-phone-3.png" alt="Mockup Papan Tiket Insiden dan Tombol Selesai" class="h-80 w-auto object-contain drop-shadow-xl hover:scale-105 transition-transform">
+            </div>
+          </div>
+
+          <!-- Keterangan Teknis Bawah -->
+          <div class="pt-4 border-t border-steel-200 space-y-2 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-steel-600 font-bold">RESPONSE TARGET:</span>
+              <span class="text-amber-800 font-extrabold">[SLA: 15 MENIT]</span>
+            </div>
+            <p class="text-[11px] text-steel-700 font-sans leading-relaxed">
+              Petugas terdekat dapat langsung mengklaim insiden dan menutup laporan dengan tombol <em>"Tandai Selesai"</em>.
+            </p>
+            <div class="bg-steel-100 p-2 border border-steel-300 text-[10px] text-steel-800 font-bold">
+              [✓] DISPATCH REAL-TIME KE STAF TERDEKAT
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MASTER KATALOG 8 MODUL (KOTAK, TEGAS, TERSTRUKTUR) ================= -->
+  <section id="katalog-modul" class="py-20 bg-white border-b-2 border-steel-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b-2 border-steel-300">
+        <div>
+          <span class="font-mono text-xs font-bold text-steel-500 uppercase tracking-widest block mb-1">
+            ARSITEKTUR MODULAR SISTEM
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black text-steel-950 uppercase tracking-tight">
+            KATALOG LENGKAP FITUR & MODUL OPERASIONAL
+          </h2>
+          <p class="text-xs sm:text-sm text-steel-600 font-medium mt-1">
+            Struktur sistem terisolasi multi-tenant yang menghubungkan Staf Lapangan, Klien Gedung, dan Kantor Pusat.
+          </p>
+        </div>
+
+        <!-- Filter Tab Kaku / Kotak -->
+        <div class="flex flex-wrap gap-1 font-mono text-xs font-bold">
+          <button @click="activeModuleTab = 'all'" :class="activeModuleTab === 'all' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            SEMUA (8)
+          </button>
+          <button @click="activeModuleTab = 'presensi'" :class="activeModuleTab === 'presensi' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            PRESENSI & WA
+          </button>
+          <button @click="activeModuleTab = 'tugas'" :class="activeModuleTab === 'tugas' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            SOP & TIKET
+          </button>
+          <button @click="activeModuleTab = 'security'" :class="activeModuleTab === 'security' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            SECURITY
+          </button>
+          <button @click="activeModuleTab = 'ob'" :class="activeModuleTab === 'ob' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            OFFICE BOY
+          </button>
+          <button @click="activeModuleTab = 'admin'" :class="activeModuleTab === 'admin' ? 'bg-steel-900 text-white' : 'bg-steel-100 text-steel-700 hover:bg-steel-200'" class="px-3.5 py-2 border border-steel-400 uppercase">
+            HQ ADMIN
+          </button>
+        </div>
+      </div>
+
+      <!-- GRID MODUL KOTAK-KOTAK TEGAS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+
+        <!-- MODUL 01 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'presensi'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-emerald-800 bg-emerald-100 px-2 py-0.5 border border-emerald-300">MODUL 01</span>
+              <span class="text-steel-500 font-bold">CORE OPS</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">PRESENSI SELFIE & GEOFENCE GPS</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Pencatatan kehadiran visual dengan penguncian koordinat satelit untuk memastikan fisik petugas berada di lokasi kerja.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-emerald-700 font-bold">[✓]</span> <span>Kamera Depan (Blokir Galeri)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-emerald-700 font-bold">[✓]</span> <span>Geofence Radius 50–100 Meter</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-emerald-700 font-bold">[✓]</span> <span>Anti-Fake GPS & Mock Detector</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-emerald-700 font-bold">[✓]</span> <span>Scan QR Code Pos Jaga Fisik</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-emerald-700 font-bold">[✓]</span> <span>Aturan Keterlambatan Otomatis</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: SELURUH PETUGAS LAPANGAN
+          </div>
+        </div>
+
+        <!-- MODUL 02 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'presensi'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-blue-800 bg-blue-100 px-2 py-0.5 border border-blue-300">MODUL 02</span>
+              <span class="text-steel-500 font-bold">CLIENT PORTAL</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">DIREKTORI STAF & DIRECT WHATSAPP</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Portal pantau transparan untuk pihak klien gedung guna melihat siapa petugas yang aktif dan menghubungi via WhatsApp.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-blue-700 font-bold">[✓]</span> <span>Daftar Personel Hadir Hari Ini</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-blue-700 font-bold">[✓]</span> <span>Indikator Status Available/On-Task</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-blue-700 font-bold">[✓]</span> <span>1-Klik Direct WhatsApp (wa.me)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-blue-700 font-bold">[✓]</span> <span>Template Pesan Otomatis Ruangan</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-blue-700 font-bold">[✓]</span> <span>Filter Penempatan Zona / Lantai</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: MANAJEMEN KLIEN & KARYAWAN
+          </div>
+        </div>
+
+        <!-- MODUL 03 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'tugas'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-amber-900 bg-amber-100 px-2 py-0.5 border border-amber-300">MODUL 03</span>
+              <span class="text-steel-500 font-bold">SOP ENGINE</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">DAILY ROUTINE SOP & CHECKLIST</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Daftar penugasan rutin terstruktur yang otomatis terbit setiap shift untuk membuktikan pekerjaan harian selesai.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-amber-800 font-bold">[✓]</span> <span>Template Tugas Otomatis per Shift</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-amber-800 font-bold">[✓]</span> <span>Checklist Toilet, Pantry, dan Koridor</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-amber-800 font-bold">[✓]</span> <span>Wajib Lampirkan Foto Bukti Kerja</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-amber-800 font-bold">[✓]</span> <span>Pencatatan Timestamp Jam Selesai</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-amber-800 font-bold">[✓]</span> <span>Peringatan Otomatis Tugas Terlewat</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: OB, SECURITY & SUPERVISOR
+          </div>
+        </div>
+
+        <!-- MODUL 04 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'tugas'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-rose-900 bg-rose-100 px-2 py-0.5 border border-rose-300">MODUL 04</span>
+              <span class="text-steel-500 font-bold">INCIDENT SLA</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">TIKET INSIDEN & SERVICE ORDER</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Sistem penanganan ad-hoc keluhan fasilitas (tumpahan, kerusakan, perbaikan) dengan target durasi waktu penanganan.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-rose-800 font-bold">[✓]</span> <span>Input Cepat via QR Ruangan</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-rose-800 font-bold">[✓]</span> <span>Self-Claim Staf Terdekat di Lokasi</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-rose-800 font-bold">[✓]</span> <span>Manual Assign oleh Danru / Spv</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-rose-800 font-bold">[✓]</span> <span>Foto Before (Mulai) & After (Selesai)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-rose-800 font-bold">[✓]</span> <span>Rating Kepuasan Klien Bintang 1–5</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: END-USER, FIELD STAFF, SPV
+          </div>
+        </div>
+
+        <!-- MODUL 05 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'security'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-slate-900 bg-slate-200 px-2 py-0.5 border border-slate-400">MODUL 05</span>
+              <span class="text-steel-500 font-bold">SECURITY DESK</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">SECURITY HUB & BUKU TAMU DIGITAL</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Digitalisasi operasional pos pengamanan gedung untuk menggantikan buku tulis bergaris yang mudah rusak.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-slate-800 font-bold">[✓]</span> <span>Buku Tamu Digital (Foto & Identitas)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-slate-800 font-bold">[✓]</span> <span>Penerimaan Paket Kurir (Tag Penerima)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-slate-800 font-bold">[✓]</span> <span>Logbook Serah Terima Shift & Kunci</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-slate-800 font-bold">[✓]</span> <span>Patroli Rute Scan Checkpoint QR</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-slate-800 font-bold">[✓]</span> <span>Tombol Sinyal Darurat (Panic Alert)</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: REGU SECURITY & DANRU
+          </div>
+        </div>
+
+        <!-- MODUL 06 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'ob'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-teal-900 bg-teal-100 px-2 py-0.5 border border-teal-300">MODUL 06</span>
+              <span class="text-steel-500 font-bold">FACILITY LOG</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">OB FACILITY & INVENTARIS HUB</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Pencatatan konsumsi bahan pembersih, pengelolaan barang tertinggal karyawan, dan temuan proaktif kerusakan.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-teal-800 font-bold">[✓]</span> <span>Request Sabun, Karbol, dan Tisu</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-teal-800 font-bold">[✓]</span> <span>Approval Berjenjang Spv ke GA</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-teal-800 font-bold">[✓]</span> <span>Lost & Found (Barang Temuan)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-teal-800 font-bold">[✓]</span> <span>Log Peminjaman Kunci Ruangan</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-teal-800 font-bold">[✓]</span> <span>Temuan Inisiatif Kerusakan Fisik</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: OFFICE BOY & KOORDINATOR
+          </div>
+        </div>
+
+        <!-- MODUL 07 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'admin'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-purple-900 bg-purple-100 px-2 py-0.5 border border-purple-300">MODUL 07</span>
+              <span class="text-steel-500 font-bold">HQ DISPATCH</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">SUPER HQ MULTI-SITE CONTROL</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Layar komando pusat untuk pimpinan PT Outsourcing dalam memantau seluruh kontrak gedung dari satu akun.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-purple-800 font-bold">[✓]</span> <span>Pemisahan Multi-Tenant Antar Klien</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-purple-800 font-bold">[✓]</span> <span>Live Monitor Kehadiran Real-time</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-purple-800 font-bold">[✓]</span> <span>Rolling Penugasan Personel Cepat</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-purple-800 font-bold">[✓]</span> <span>Kalender Roster (Bisa Import Excel)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-purple-800 font-bold">[✓]</span> <span>Persetujuan Tukar Shift (Shift Swap)</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: DIREKTUR & MANAJER OPERASIONAL
+          </div>
+        </div>
+
+        <!-- MODUL 08 -->
+        <div x-show="activeModuleTab === 'all' || activeModuleTab === 'admin'" class="bg-steel-50 border-2 border-steel-400 flex flex-col justify-between">
+          <div class="p-5">
+            <div class="flex items-center justify-between pb-3 border-b border-steel-300 font-mono text-[11px]">
+              <span class="font-extrabold text-cyan-900 bg-cyan-100 px-2 py-0.5 border border-cyan-300">MODUL 08</span>
+              <span class="text-steel-500 font-bold">AUDIT READY</span>
+            </div>
+            <h3 class="text-sm font-black text-steel-900 uppercase mt-3 mb-2">OTOMASI LAPORAN & PAYROLL</h3>
+            <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+              Penerbitan dokumen rekapitulasi kinerja bulanan siap cetak berlogo klien tanpa proses entri ulang.
+            </p>
+            <ul class="space-y-1.5 text-xs text-steel-800 font-mono border-t border-steel-300 pt-3">
+              <li class="flex items-start gap-1.5"><span class="text-cyan-800 font-bold">[✓]</span> <span>Laporan Bulanan PDF Berlogo Klien</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-cyan-800 font-bold">[✓]</span> <span>Export Rekap Jam Kerja (Payroll Excel)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-cyan-800 font-bold">[✓]</span> <span>Persentase Kepatuhan SLA Tiket</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-cyan-800 font-bold">[✓]</span> <span>Laporan Skor Kepuasan Karyawan (CSAT)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-cyan-800 font-bold">[✓]</span> <span>Audit Trail Data Tidak Bisa Dimanipulasi</span></li>
+            </ul>
+          </div>
+          <div class="bg-steel-200 border-t border-steel-300 px-5 py-2.5 font-mono text-[10px] text-steel-700 font-bold">
+            TARGET ROLE: FINANCE, HRD & BUILDING GA
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 3 MASALAH OPERASIONAL & AUDIT LAPANGAN ================= -->
+  <section id="prinsip" class="py-16 bg-steel-200/60 border-b-2 border-steel-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="mb-10">
+        <span class="font-mono text-xs font-bold text-steel-600 uppercase tracking-widest block mb-1">AUDIT REALITA LAPANGAN</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-steel-950 uppercase tracking-tight">
+          KENDALA UTAMA PENGAWASAN OUTSOURCING SAAT INI
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Box 1 -->
+        <div class="bg-white border-2 border-steel-400 p-6 shadow-sm">
+          <div class="font-mono text-xs font-bold text-rose-700 bg-rose-50 border border-rose-300 px-2.5 py-1 inline-block mb-4">
+            FAKTOR RISIKO #01
+          </div>
+          <h3 class="text-base font-black text-steel-900 uppercase mb-2">KECURIGAAN STAF FIKTIF DARI KLIEN</h3>
+          <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+            Buku kehadiran manual di pos satpam atau lembar paraf OB sering dicurigai pihak klien. Sering timbul perdebatan tagihan karena klien merasa jumlah petugas yang hadir tidak sesuai jumlah tagihan kontrak.
+          </p>
+          <div class="bg-steel-100 border-t-2 border-steel-300 -mx-6 -mb-6 p-4 font-mono text-[11px] text-steel-800 font-bold">
+            SOLUSI POS: Validasi visual selfie langsung + koordinat GPS terkunci di area gedung klien.
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="bg-white border-2 border-steel-400 p-6 shadow-sm">
+          <div class="font-mono text-xs font-bold text-amber-800 bg-amber-50 border border-amber-300 px-2.5 py-1 inline-block mb-4">
+            FAKTOR RISIKO #02
+          </div>
+          <h3 class="text-base font-black text-steel-900 uppercase mb-2">KINERJA RUTIN TIDAK TERREKAM</h3>
+          <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+            Petugas kebersihan telah rutin mengepel dan membersihkan toilet, namun tidak ada catatan jam berapa pekerjaan selesai. Saat ada keluhan jam 14:00, manajemen klien menganggap petugas tidak bekerja sama sekali.
+          </p>
+          <div class="bg-steel-100 border-t-2 border-steel-300 -mx-6 -mb-6 p-4 font-mono text-[11px] text-steel-800 font-bold">
+            SOLUSI POS: Checklist SOP digital per shift wajib melampirkan foto bukti pengerjaan.
+          </div>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="bg-white border-2 border-steel-400 p-6 shadow-sm">
+          <div class="font-mono text-xs font-bold text-steel-800 bg-steel-100 border border-steel-400 px-2.5 py-1 inline-block mb-4">
+            FAKTOR RISIKO #03
+          </div>
+          <h3 class="text-base font-black text-steel-900 uppercase mb-2">REKAPITULASI MANUAL MEMAKAN WAKTU</h3>
+          <p class="text-xs text-steel-700 leading-relaxed font-medium mb-4">
+            Setiap akhir bulan, koordinator lapangan harus mengumpulkan tumpukan kertas laporan dari belasan gedung berbeda untuk diketik manual ke spreadsheet Excel untuk kebutuhan penagihan dan penggajian.
+          </p>
+          <div class="bg-steel-100 border-t-2 border-steel-300 -mx-6 -mb-6 p-4 font-mono text-[11px] text-steel-800 font-bold">
+            SOLUSI POS: Laporan bulanan berlogo klien langsung digenerate format PDF dan Excel 1-klik.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TABEL ANALISA EFISIENSI B2B ================= -->
+  <section id="perbandingan" class="py-16 bg-steel-100 border-b-2 border-steel-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="mb-8">
+        <span class="font-mono text-xs font-bold text-steel-600 uppercase tracking-widest block mb-1">KOMPARASI EKSEKUTIF</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-steel-950 uppercase tracking-tight">
+          PERBANDINGAN OPERASIONAL OUTSOURCING
+        </h2>
+      </div>
+
+      <!-- Tabel Tegas Bergaris -->
+      <div class="bg-white border-2 border-steel-400 overflow-x-auto shadow-sm">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-steel-900 text-white uppercase text-[11px] border-b-2 border-steel-900">
+            <tr>
+              <th class="p-4 border-r border-steel-700">PARAMETER EVALUASI</th>
+              <th class="p-4 border-r border-steel-700 bg-steel-800 text-steel-300">METODE KONVENSIONAL (LAMA)</th>
+              <th class="p-4 bg-emerald-900 text-emerald-200">DENGAN SISTEM POS (TERPADU)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y-2 divide-steel-200 text-steel-900">
+            <tr>
+              <td class="p-4 font-bold bg-steel-50 border-r border-steel-300">Verifikasi Masuk Kerja</td>
+              <td class="p-4 border-r border-steel-300 text-steel-600">Tanda tangan buku kertas / mesin fingerprint rentan antri & rusak</td>
+              <td class="p-4 font-bold text-emerald-900 bg-emerald-50/50">Foto selfie kamera HP langsung + validasi GPS radius 50m</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold bg-steel-50 border-r border-steel-300">Panggilan Darurat Klien</td>
+              <td class="p-4 border-r border-steel-300 text-steel-600">Klien harus mencari fisik OB ke pantry atau titip pesan lisan</td>
+              <td class="p-4 font-bold text-emerald-900 bg-emerald-50/50">1-Klik tombol WhatsApp ke staf yang bertugas & berstatus standby</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold bg-steel-50 border-r border-steel-300">Bukti Kebersihan & Patroli</td>
+              <td class="p-4 border-r border-steel-300 text-steel-600">Checklist paraf di balik pintu toilet yang rawan diparaf sekaligus</td>
+              <td class="p-4 font-bold text-emerald-900 bg-emerald-50/50">Checklist digital jam kerja wajib upload foto hasil pembersihan</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold bg-steel-50 border-r border-steel-300">Penyusunan Laporan Akhir</td>
+              <td class="p-4 border-r border-steel-300 text-steel-600">Butuh 3-5 hari kerja untuk mengumpulkan data dari tiap gedung</td>
+              <td class="p-4 font-bold text-emerald-900 bg-emerald-50/50">Laporan bulanan format PDF siap cetak terbit dalam 1 detik</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold bg-steel-50 border-r border-steel-300">Nilai Jual Pitching Tender</td>
+              <td class="p-4 border-r border-steel-300 text-rose-700 font-bold">Rentan perang harga karena komoditas jasa dianggap sama</td>
+              <td class="p-4 font-bold text-emerald-900 bg-emerald-50/50">Menang tender karena memiliki standar pengawasan digital transparan</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FORMULIR PILOT PROJECT (KOTAK, TEGAS, LUGAS) ================= -->
+  <section id="pilot" class="py-20 bg-white border-b-2 border-steel-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="border-4 border-steel-900 bg-steel-50 shadow-lg">
+        
+        <div class="border-b-2 border-steel-900 p-6 sm:p-8 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="font-mono text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 border border-emerald-300 uppercase inline-block mb-2">
+              PROGRAM KERJASAMA PILOT &bull; TAHUN 2026
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-black text-steel-950 uppercase tracking-tight">
+              PENGAJUAN UJI COBA OPERASIONAL 30 HARI
+            </h2>
+            <p class="text-xs sm:text-sm text-steel-700 font-medium mt-1">
+              Terapkan sistem POS pada 1 site gedung klien pilihan Anda secara cuma-cuma selama 30 hari kalender tanpa komitmen awal.
+            </p>
+          </div>
+          <div class="shrink-0 flex items-center gap-3 bg-steel-100 border border-steel-300 p-3">
+            <img src="assets/logo.png" alt="Ariv Solusindo" class="h-9 w-auto object-contain">
+            <div class="text-left font-mono">
+              <span class="block text-[10px] text-steel-500 font-bold uppercase">PENYEDIA RESMI</span>
+              <span class="block text-xs font-black text-[#1E5B9E]">PT ARIV SOLUSI INDONESIA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+          
+          <!-- Kolom Kiri: Formulir Pengajuan -->
+          <div class="lg:col-span-7 p-6 sm:p-8 space-y-4 font-mono text-xs border-b lg:border-b-0 lg:border-r-2 border-steel-300">
+            <div>
+              <label class="block font-bold text-steel-900 uppercase mb-1.5">NAMA PIC / PT OUTSOURCING: *</label>
+              <input type="text" x-model="leadName" placeholder="CONTOH: BPK. RAHMAD (PT SEJAHTERA BERSAMA)" class="w-full p-3.5 bg-white border-2 border-steel-400 text-steel-900 font-sans focus:border-steel-900 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block font-bold text-steel-900 uppercase mb-1.5">JUMLAH STAF OB & SECURITY PADA SITE PILOT: *</label>
+              <select x-model="leadStaffCount" class="w-full p-3.5 bg-white border-2 border-steel-400 text-steel-900 font-sans focus:border-steel-900 focus:outline-none">
+                <option value="10 - 25 Personel">10 - 25 Personel</option>
+                <option value="26 - 50 Personel">26 - 50 Personel</option>
+                <option value="50 - 100+ Personel">50 - 100+ Personel</option>
+              </select>
+            </div>
+
+            <div class="pt-2">
+              <a :href="'https://wa.me/6285157875773?text=' + encodeURIComponent('Halo Tim PT Ariv Solusi Indonesia, saya ' + (leadName || 'PIC Outsourcing') + ' ingin memproses pengajuan Site Pilot Project POS selama 30 hari untuk estimasi ' + leadStaffCount + '. Mohon jadwal koordinasinya. (Ref: arivsolusindo.com)')" target="_blank" rel="noreferrer" class="w-full p-4 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs uppercase tracking-widest text-center border-2 border-emerald-950 block shadow-sm transition">
+                [ KIRIM PERMOHONAN PILOT PROJECT VIA WHATSAPP RESMI ]
+              </a>
+              <p class="text-[11px] text-steel-500 font-medium text-center mt-2.5">
+                Sistem akan disiapkan dalam 1x24 jam kerja setelah koordinasi data lokasi gedung.
+              </p>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Identitas & Kontak Perusahaan -->
+          <div class="lg:col-span-5 p-6 sm:p-8 bg-white font-mono text-xs flex flex-col justify-between space-y-5">
+            <div>
+              <span class="text-[10px] font-bold text-steel-400 uppercase tracking-widest block mb-2">SALURAN KOMUNIKASI & LEGALITAS</span>
+              <h3 class="text-sm font-black text-steel-900 uppercase">PT ARIV SOLUSI INDONESIA</h3>
+              <p class="text-[11px] text-steel-500 font-sans mt-0.5">Architecting Reliable, Intelligent & Valuable systems</p>
+            </div>
+
+            <div class="space-y-3 font-sans">
+              <div class="p-3 bg-steel-50 border border-steel-200">
+                <span class="block text-[10px] font-mono font-bold text-steel-500 uppercase">BADAN HUKUM RESMI:</span>
+                <span class="text-xs font-mono font-bold text-steel-800">SK Kemenkumham RI No. AHU-A123136.AH.01.30.Tahun 2026</span>
+              </div>
+
+              <div class="p-3 bg-steel-50 border border-steel-200 space-y-1.5 font-mono text-[11px]">
+                <div class="flex items-center justify-between">
+                  <span class="text-steel-500 font-bold">DOMAIN RESMI:</span>
+                  <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="text-blue-700 font-bold hover:underline">arivsolusindo.com</a>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-steel-500 font-bold">EMAIL RESMI:</span>
+                  <a href="mailto:rahmad@arivsolusindo.com" class="text-steel-900 font-bold hover:underline">rahmad@arivsolusindo.com</a>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-steel-500 font-bold">WHATSAPP RESMI:</span>
+                  <a href="https://wa.me/6285157875773" target="_blank" rel="noreferrer" class="text-emerald-700 font-bold hover:underline">+62 851-5787-5773</a>
+                </div>
+              </div>
+
+              <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
+                <strong class="font-bold block">JAMINAN KEAMANAN & ISOLASI DATA:</strong>
+                Setiap klien gedung terlindungi dengan arsitektur multi-tenant terisolasi penuh dan backup otomatis berkala.
+              </div>
+            </div>
+
+            <div class="pt-2 text-[10px] text-steel-500 border-t border-steel-200">
+              Jam Operasional: Senin - Jumat (07:00 - 18:00 WIB) &bull; Sistem & Cloud Server Aktif 24/7
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FAQ TEKNIS ================= -->
+  <section id="faq" class="py-16 bg-steel-100 border-b-2 border-steel-300">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="mb-8">
+        <span class="font-mono text-xs font-bold text-steel-600 uppercase tracking-widest block mb-1">INFORMASI TEKNIS</span>
+        <h2 class="text-2xl font-black text-steel-950 uppercase tracking-tight">
+          PERTANYAAN TEKNIS OPERASIONAL (FAQ)
+        </h2>
+      </div>
+
+      <div class="space-y-3 font-mono text-xs">
+        <div class="bg-white border-2 border-steel-300 p-5">
+          <p class="font-bold text-steel-900 uppercase mb-2">Q: Apakah petugas lapangan perlu HP dengan spesifikasi tinggi?</p>
+          <p class="text-steel-700 font-sans text-xs leading-relaxed">
+            Tidak. Sistem berbasis web ringan (Progressive Web Application). Cukup ponsel Android/iOS dengan browser Google Chrome atau Safari dan kamera depan berfungsi normal. Tidak memerlukan kapasitas penyimpanan besar.
+          </p>
+        </div>
+
+        <div class="bg-white border-2 border-steel-300 p-5">
+          <p class="font-bold text-steel-900 uppercase mb-2">Q: Bagaimana jika koneksi internet di basement atau ruang mesin terputus?</p>
+          <p class="text-steel-700 font-sans text-xs leading-relaxed">
+            Sistem dilengkapi fitur penyimpanan lokal sementara (*Offline Cache*). Petugas tetap dapat mengisi checklist tugas dan mengambil foto. Data akan otomatis disinkronkan ke server saat perangkat kembali menangkap sinyal.
+          </p>
+        </div>
+
+        <div class="bg-white border-2 border-steel-300 p-5">
+          <p class="font-bold text-steel-900 uppercase mb-2">Q: Apakah data antar kantor klien aman dan tidak tercampur?</p>
+          <p class="text-steel-700 font-sans text-xs leading-relaxed">
+            Sangat aman. Setiap gedung klien memiliki partisi data tersendiri (*Tenant Partition*). Klien Gedung A sama sekali tidak memiliki akses terhadap data penugasan atau rekaman di Gedung B.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER KORPORAT RESMI PT ARIV SOLUSI INDONESIA ================= -->
+  <footer class="bg-steel-950 text-steel-400 pt-16 pb-12 font-mono text-xs border-t-2 border-steel-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Grid Footer 4 Kolom -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-steel-800">
+        
+        <!-- Kolom 1: Identitas & Logo Perusahaan (5 col) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="assets/logo-white.png" alt="Ariv Solusindo Logo White" class="h-10 w-auto object-contain">
+            <div class="border-l border-steel-800 pl-3">
+              <span class="text-base font-extrabold tracking-tight text-white uppercase block">PT ARIV SOLUSI INDONESIA</span>
+              <span class="text-[10px] text-cyan-400 font-mono tracking-wider">A.R.I.V. — Architecting Reliable, Intelligent & Valuable systems</span>
+            </div>
+          </div>
+
+          <p class="text-steel-400 font-sans text-xs leading-relaxed max-w-md pt-1">
+            <strong class="text-slate-200">PT Ariv Solusi Indonesia (Ariv Solusindo)</strong> adalah perusahaan pengembang produk teknologi digital dan platform SaaS terintegrasi untuk transformasi modern operasional lapangan, korporasi fasilitas, dan institusi pendidikan di Indonesia.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1 font-mono text-[10px]">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-950/80 border border-emerald-800 text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              SISTEM TERUJI & AKTIF 2026
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-950/80 border border-blue-800 text-blue-400">
+              MULTI-TENANT DATA ISOLATION
+            </span>
+          </div>
+        </div>
+
+        <!-- Kolom 2: Solusi & Produk SaaS (3 col) -->
+        <div class="lg:col-span-3 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-white border-b border-steel-800 pb-2">
+            LINI PRODUK & TEKNOLOGI
+          </h4>
+          <ul class="space-y-2 text-[11px] font-sans">
+            <li>
+              <a href="#katalog-modul" class="hover:text-emerald-400 transition flex items-center justify-between">
+                <span class="text-white font-medium">POS (Portal Operasional Staf)</span>
+                <span class="text-[9px] bg-emerald-900 text-emerald-300 px-1.5 py-0.5 border border-emerald-700">Outsourcing</span>
+              </a>
+            </li>
+            <li>
+              <a href="#katalog-modul" class="hover:text-white transition">Presensi GPS Radius & Foto Selfie</a>
+            </li>
+            <li>
+              <a href="#katalog-modul" class="hover:text-white transition">Checklist SOP Harian & Foto Bukti</a>
+            </li>
+            <li>
+              <a href="#katalog-modul" class="hover:text-white transition">Tiket Keluhan Gedung & Panic Call</a>
+            </li>
+            <li class="pt-1">
+              <a href="https://www.portalwalimurid.id" target="_blank" rel="noreferrer" class="hover:text-cyan-400 transition flex items-center gap-1 text-cyan-400">
+                <span>Portal Wali Murid (Flagship EdTech) &nearr;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Komunikasi Resmi (4 col) -->
+        <div class="lg:col-span-4 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-white border-b border-steel-800 pb-2">
+            KOMUNIKASI RESMI
+          </h4>
+          <div class="space-y-2.5 text-[11px]">
+            <div>
+              <span class="text-steel-500 uppercase block text-[10px]">EMAIL RESMI:</span>
+              <a href="mailto:rahmad@arivsolusindo.com" class="text-white hover:text-emerald-400 transition font-mono font-bold">
+                rahmad@arivsolusindo.com
+              </a>
+            </div>
+
+            <div>
+              <span class="text-steel-500 uppercase block text-[10px]">PORTAL PERUSAHAAN:</span>
+              <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="text-white hover:text-cyan-400 transition font-mono font-bold">
+                https://www.arivsolusindo.com
+              </a>
+            </div>
+
+            <div>
+              <span class="text-steel-500 uppercase block text-[10px]">WHATSAPP LAYANAN KLIEN:</span>
+              <a href="https://wa.me/6285157875773?text=Halo%20Tim%20Ariv%20Solusindo,%20mohon%20informasi%20implementasi%20sistem%20POS." target="_blank" rel="noreferrer" class="text-emerald-400 hover:text-emerald-300 transition font-mono font-bold flex items-center gap-1.5">
+                <span>+62 851-5787-5773 (Direct Chat)</span>
+              </a>
+            </div>
+
+            <div class="pt-2">
+              <a href="https://wa.me/6285157875773?text=Halo%20Tim%20PT%20Ariv%20Solusi%20Indonesia,%20saya%20ingin%20jadwalkan%20sesi%20konsultasi%20sistem%20POS." target="_blank" rel="noreferrer" class="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-700 to-[#1E5B9E] hover:opacity-95 text-white font-bold text-xs uppercase tracking-wider text-center block border border-emerald-900 transition">
+                [ JADWALKAN KONSULTASI RESMI ]
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar: Copyright & Compliance -->
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-steel-500">
+        <div>
+          &copy; 2026 <strong class="text-white">PT ARIV SOLUSI INDONESIA (ARIV SOLUSINDO)</strong> &bull;
+          <span class="text-steel-400">SK Kemenkumham RI No. AHU-A123136.AH.01.30.Tahun 2026</span>. All Rights Reserved.
+        </div>
+
+        <div class="flex items-center gap-4 text-steel-400">
+          <a href="https://www.arivsolusindo.com" target="_blank" rel="noreferrer" class="hover:text-white transition">Website Resmi</a>
+          <span>&bull;</span>
+          <a href="#pilot" class="hover:text-white transition">Program Pilot 30 Hari</a>
+          <span>&bull;</span>
+          <a href="https://wa.me/6285157875773" target="_blank" rel="noreferrer" class="text-emerald-400 hover:underline">WhatsApp Official</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
+  <a href="https://wa.me/6285157875773?text=Halo%20Tim%20Ariv%20Solusindo,%20mohon%20informasi%20implementasi%20sistem%20POS%20(Portal%20Operasional%20Staf)%20untuk%20PT%20Outsourcing." target="_blank" rel="noreferrer" class="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-[#25D366] hover:bg-[#20BE5B] text-white rounded-full shadow-2xl font-sans font-bold text-xs transition-transform hover:scale-105 group border-2 border-white/20">
+    <span class="relative flex h-3 w-3">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+    </span>
+    <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    <span class="hidden sm:inline">WhatsApp Ariv Solusindo</span>
+    <span class="sm:hidden">WhatsApp</span>
+  </a>
+
+</body>
+</html>
